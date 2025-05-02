@@ -1,0 +1,41 @@
+#This task is done consireding Ubuntu as OS
+---
+  - name: Install Steam, Enable Proton, and Install VRChat
+    hosts: localhost
+    vars:
+      ansible_become_password: "{{ lookup('env', 'SUDO_PWD') | default('') }}"
+      steam_login: "{{ lookup('env', 'STEAM_USER') | default('') }}"
+      steam_pwd: "{{ lookup('env', 'STEAM_PWD') | default('') }}"
+    tasks:
+    - name: Install Steam
+      apt:
+        name: steam
+        state: present
+      become: true
+  
+    - name: Install Steam CMD
+      apt:
+        name: steamcmd
+        state: present
+      become: true
+
+    - name: Install flatpak
+      apt:
+        name: flatpak
+        state: present
+      become: true
+
+    - name: Add Flathub repository
+      command: flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
+      become: true
+
+    - name: Install ProtonUp-Qt via Flatpak
+      command: flatpak install --noninteractive flathub net.davidotek.pupgui2
+      become: true
+
+    - name: Install VRChat
+      shell: |
+        steamcmd +@sSteamCmdForcePlatformType windows +force_install_dir ~/vrchat +login {{ steam_login }} {{steam_pwd}} +app_update 438100 validate +quit
+      args:
+        executable: /bin/bash
+        creates: ~/vrchat/VRChat.exe
