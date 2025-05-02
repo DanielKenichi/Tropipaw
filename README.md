@@ -1,15 +1,17 @@
-> This is a repository used to automated (or most of it) a VRC installation on a remote Ubuntu server
+>Note: This is a repository that should be used as a guide to setup a Ubuntu host for Tropipaw's VRC streaming account
 
 # Getting started
-
-First, install ansible with the ```install_ansible.sh``` script.
+First, install on your localhost ansible with the ```install_ansible.sh``` script.
 
 Then, setup a ```.env``` file using the template available
 
 # Install VRC
-Run ```install_vrc.sh``` script to install vrc using the ```install_vrc.yaml``` playbook.
+Run ```install_pre_requisites.sh``` script to install steam and flatpak using the ```install_pre_requisites.yaml``` playbook.
 
-> Note: If you have steamguard enabled, the playbook will fail at the last task trying to download VRC, since VRC requires a login to be installed. If that is the case, install vrc manually on the steam GUI
+Then open Steam and log in into your steam account and install VRC.
+
+> Note: Currently this repository does not automated the VRC installation on steam itself, 
+as the installation via steamcmd is not recognized by the steam client.
 
 After installing VRC, we need to setup proton since VRC is a game for windows. 
 
