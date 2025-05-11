@@ -38,3 +38,7 @@
 
     - name: Install ProtonUp-Qt via Flatpak
       command: flatpak install --noninteractive flathub net.davidotek.pupgui2
+    
+    # Manually reboot the system after this task
+    - name: Install recommended drivers for host
+      command:  ubuntu-drivers autoinstall
