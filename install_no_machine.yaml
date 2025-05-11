@@ -2,6 +2,9 @@
 - name: Install NoMachine for Remote accesss
   hosts: server
   become: true
+  vars:
+    ansible_become_password: "{{ lookup('env', 'SUDO_PWD') | default('') }}"
+    ubuntu_user_password: "{{ lookup('env', 'NO_MACHINE_PWD') | default('batata') }}"
   tasks:
     - name: Download NoMachine .deb package
       get_url:
@@ -13,3 +16,43 @@
       shell: dpkg -i /tmp/nomachine.deb
       args:
         executable: /bin/bash
+    
+    - name: Enable UPnP for remote access 
+      lineinfile:
+        path: /usr/NX/etc/server.cfg
+        regexp: '^#?\s*EnableUPnP\s+'
+        line: 'EnableUPnP NX'
+        state: present
+        create: yes
+
+    - name: Ensure UPnPSession 
+      lineinfile:
+        path: /usr/NX/etc/server.cfg
+        regexp: '^#?\s*EnableUPnPSession\s+'
+        line: 'EnableUPnPSession 1'
+        state: present
+        create: yes
+
+    - name: EnablePasswordDB for user auth
+      lineinfile:
+        path: /usr/NX/etc/server.cfg
+        regexp: '^EnablePasswordDB\s+'
+        line: 'EnablePasswordDB 1'
+        state: present
+        create: yes
+
+    - name: Restart NoMachine
+      shell: /usr/NX/bin/nxserver --restart
+      args:
+        executable: /bin/bash
+
+      # A password must be set for the user on NoMachine DB otherwise it wont connect
+    - name: Set system password for 'ubuntu'
+      expect:
+        command: "/usr/NX/bin/nxserver --passwd ubuntu --system"
+        responses:
+          'Enter new system password.*': "{{ ubuntu_user_password }}"
+          'Retype new system password.*': "{{ ubuntu_user_password }}"
+          'Do you want to set password in NX password DB for.*': "yes"
+          'Password.*': "{{ ubuntu_user_password }}"
+          'Confirm password.*': "{{ ubuntu_user_password }}"
