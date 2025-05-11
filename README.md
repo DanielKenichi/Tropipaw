@@ -7,6 +7,8 @@ Then, setup a ```.env``` file using the template available
 
 Lastly, install NoMachine in your localhost and on the remote server to access it remotely with a GUI using ```install_no_machine.sh```
 
+>Note: If the remote has no desktop installed, use the ```install_gnome``` script.
+
 # Install VRC
 Run ```install_pre_requisites.sh``` script to install steam and flatpak using the ```install_pre_requisites.yaml``` playbook.
 
