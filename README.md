@@ -1,5 +1,7 @@
 >Note: This is a repository that should be used as a guide to setup a Ubuntu host for Tropipaw's VRC streaming account
 
+>TODO: proper organize the tasks into roles
+
 # Getting started
 First, install on your localhost ansible with the ```install_ansible.sh``` script.
 

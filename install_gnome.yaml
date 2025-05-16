@@ -1,5 +1,5 @@
 ---
-- name: Install GNOME with LightDM on Ubuntu Server
+- name: Install GNOME on Ubuntu Server
   hosts: server   
   become: true
   vars:
@@ -17,20 +17,3 @@
       apt:
         name: ubuntu-desktop
         state: present
-
-    - name: Install LightDM display manager
-      apt:
-        name: lightdm
-        state: present
-
-    - name: Preconfigure LightDM as the default display manager
-      debconf:
-        name: lightdm
-        question: shared/default-x-display-manager
-        value: lightdm
-        vtype: select
-
-    - name: Reconfigure LightDM as default display manager
-      command: dpkg-reconfigure lightdm
-      args:
-        creates: /etc/X11/default-display-manager
