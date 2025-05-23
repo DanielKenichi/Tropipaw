@@ -11,6 +11,8 @@ Lastly, install NoMachine in your localhost and on the remote server to access i
 
 >Note: If the remote has no desktop installed, use the ```install_gnome``` script.
 
+>Note: If the remote has no drivers installed for the nvidia card, install it by using ```sudo ubuntu-drivers install nvidia:570``` or with any other preferred version
+
 # Install VRC
 Run ```install_pre_requisites.sh``` script to install steam and flatpak using the ```install_pre_requisites.yaml``` playbook.
 
@@ -22,5 +24,3 @@ as the installation via steamcmd is not recognized by the steam client.
 After installing VRC, we need to setup proton since VRC is a game for windows. 
 
 To do this, run ```flatpak run net.davidotek.pupgui2``` and select a GE-Proton version for VRC. 
-
-Look at this [guide](https://lvra.gitlab.io/docs/vrchat/) for more information
